@@ -4,7 +4,7 @@ from django.core.validators import FileExtensionValidator
 
 
 class Blog(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE,verbose_name="User")
+    user = models.ForeignKey(User,on_delete=models.CASCADE,verbose_name="User",null=True)
     title = models.CharField(max_length=150, verbose_name="Blog Title")
     short_description = models.CharField(max_length=500, verbose_name="Short Describtion")
     publish_date = models.DateTimeField(auto_now_add=True, verbose_name="Publish Date")
