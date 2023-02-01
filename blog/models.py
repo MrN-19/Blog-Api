@@ -4,13 +4,14 @@ from django.core.validators import FileExtensionValidator
 
 
 class Blog(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE,verbose_name="User",null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="User", null=True)
     title = models.CharField(max_length=150, verbose_name="Blog Title")
     short_description = models.CharField(max_length=500, verbose_name="Short Describtion")
     publish_date = models.DateTimeField(auto_now_add=True, verbose_name="Publish Date")
     picture = models.FileField(upload_to="blog/pictures", validators=[
-        FileExtensionValidator(allowed_extensions=(".jpg", ".png", "jpeg"), message="This File is not Valid")
+        FileExtensionValidator(allowed_extensions=("jpg", "png", "jpeg"), message="This File is not Valid")
     ])
+    text = models.TextField(verbose_name="Text Of Blog")
 
     def __str__(self):
         return self.title
@@ -28,7 +29,7 @@ class LikeView(models.Model):
 
 
 class Like(LikeView):
-    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, verbose_name="Blog",related_name="likes")
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, verbose_name="Blog", related_name="likes")
 
     class Meta:
         verbose_name = "Blog Like Count"
@@ -41,3 +42,17 @@ class View(LikeView):
     class Meta:
         verbose_name = "Blog View Count"
         verbose_name_plural = "Blogs View Count"
+
+
+class BlogComment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="User")
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, verbose_name="Blog")
+    text = models.TextField(max_length=1000, verbose_name="Comment Text")
+    create_date = models.DateTimeField(auto_now_add=True, verbose_name="Comment Create Date")
+
+    def __str__(self):
+        return f"{self.user.username} -- {self.blog.title}"
+
+    class Meta:
+        verbose_name = "Blog Comment"
+        verbose_name_plural = "Blog Comments"

@@ -17,7 +17,14 @@ admin.site.register(models.Like, LikeAdmin)
 
 
 class ViewAdmin(admin.ModelAdmin):
-    readonly_fields = ("user","blog")
+    readonly_fields = ("user", "blog")
 
 
-admin.site.register(models.View,ViewAdmin)
+admin.site.register(models.View, ViewAdmin)
+
+
+class CommentBlogAdmin(admin.ModelAdmin):
+    readonly_fields = ("create_date",)
+
+
+admin.site.register(models.BlogComment, CommentBlogAdmin)
