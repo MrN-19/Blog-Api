@@ -3,16 +3,26 @@ from django.contrib.auth.models import User
 from django.core.validators import FileExtensionValidator
 
 
+class BlogCategory(models.Model):
+    title = models.CharField(max_length = 120,verbose_name = "Category Name")
+    picture = models.ImageField(upload_to = "blog-category/pictures",null=True,blank=True)
+    create_date = models.DateTimeField(auto_now_add = True)
+
+
+    def __str__(self):
+        return self.title
+
+
 class Blog(models.Model):
+    category = models.ForeignKey(BlogCategory,on_delete = models.CASCADE,verbose_name = "Category Name",null = True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="User", null=True)
     title = models.CharField(max_length=150, verbose_name="Blog Title")
     short_description = models.CharField(max_length=500, verbose_name="Short Describtion")
     publish_date = models.DateTimeField(auto_now_add=True, verbose_name="Publish Date")
-    picture = models.FileField(upload_to="blog/pictures", validators=[
-        FileExtensionValidator(allowed_extensions=("jpg", "png", "jpeg"), message="This File is not Valid")
-    ])
+    picture = models.ImageField(upload_to="blog/pictures")
     text = models.TextField(verbose_name="Text Of Blog",null=True)
     active = models.BooleanField(default=True,verbose_name="Blog Activation")
+
 
     def __str__(self):
         return self.title

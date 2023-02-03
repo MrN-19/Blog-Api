@@ -6,8 +6,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 
+from .models import Blog,Like,View,BlogCategory
 from .serializers import BlogSerializer,CommentSerializer
-from .models import Blog,Like,View
 
 
 class AllBlogs(APIView):
@@ -36,15 +36,31 @@ class SingleBlog(APIView):
 class SearchBlog(APIView):
 
     def get(self,request,query:str):
-        
+
         if query == "":
             return Response(status=status.HTTP_200_OK)
         
         searched_blogs = Blog.objects.filter(Q(title__icontains  = query) | Q(short_description__icontains = query) | Q(text__icontains = query))
+
         searched_blogs_serializer = BlogSerializer(instance=searched_blogs,many=True)
 
         return Response(data = searched_blogs_serializer.data,status=status.HTTP_200_OK)
 
+
+class BlogWithCategory(APIView):
+
+    def get(self,request,category_id:int):
+
+        if category_id == 0:
+            return Response(status = status.HTTP_404_NOT_FOUND)
+
+        category = BlogCategory.objects.filter(id = category_id).first()
+        if not category:
+            return Response(status = status.HTTP_404_NOT_FOUND)
+
+        blogs_with_category = Blog.objects.filter(category = category)
+        blogs_with_category_serializer = BlogSerializer(instance = blogs_with_category)
+        return Response(data = blogs_with_category_serializer.data,status = status.HTTP_200_OK)
 
 
 
@@ -58,6 +74,8 @@ class LikeBlog(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
         
         blog = Blog.objects.filter(id=blog_id,active = True).first()
+
+
         if not blog:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -107,3 +125,4 @@ class CommentBlog(APIView):
             comment_serializer.save()
             return Response(data = {"message" : "Comment Saved Successfully ..."},status=status.HTTP_200_OK)
         return Response(data = comment_serializer.errors,status = status.HTTP_400_BAD_REQUEST)
+

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import AllBlogs,LikeBlog,ViewBlog,SingleBlog,SearchBlog,CommentBlog
+from .views import AllBlogs,LikeBlog,ViewBlog,SingleBlog,SearchBlog,BlogWithCategory,CommentBlog
 
 
 app_name:str = "blog"
@@ -11,4 +11,7 @@ urlpatterns = [
     path("blog/<int:blog_id>",SingleBlog.as_view(),name="singleblog"),
     path("search/<str:query>",SearchBlog.as_view(),name="searchblog"),
     path("blog-comment/<int:blog_id>",CommentBlog.as_view(),name="commentblog"),
+    path("blog-category/<int:category_id>",BlogWithCategory.as_view(),name="blogwithcategory"),
 ]
+    
+

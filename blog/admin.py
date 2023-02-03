@@ -2,6 +2,12 @@ from django.contrib import admin
 from . import models
 
 
+class BlogCategoryAdmin(admin.ModelAdmin):
+    ...
+
+admin.site.register(models.BlogCategory,BlogCategoryAdmin)
+
+
 class BlogAdmin(admin.ModelAdmin):
     list_filter = ("title", "user")
 
