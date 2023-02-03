@@ -11,7 +11,8 @@ class Blog(models.Model):
     picture = models.FileField(upload_to="blog/pictures", validators=[
         FileExtensionValidator(allowed_extensions=("jpg", "png", "jpeg"), message="This File is not Valid")
     ])
-    text = models.TextField(verbose_name="Text Of Blog")
+    text = models.TextField(verbose_name="Text Of Blog",null=True)
+    active = models.BooleanField(default=True,verbose_name="Blog Activation")
 
     def __str__(self):
         return self.title
@@ -22,7 +23,7 @@ class Blog(models.Model):
 
 
 class LikeView(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="User")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="User",null=True)
 
     def __str__(self):
         return f"{self.blog.title} ---- {self.user.username}"
@@ -38,7 +39,7 @@ class Like(LikeView):
 
 class View(LikeView):
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE, verbose_name="Blog", related_name="views")
-
+    ip = models.CharField(max_length=15,verbose_name="User Ip",null=True)
     class Meta:
         verbose_name = "Blog View Count"
         verbose_name_plural = "Blogs View Count"
@@ -46,12 +47,13 @@ class View(LikeView):
 
 class BlogComment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="User")
-    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, verbose_name="Blog")
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, verbose_name="Blog",related_name="comments")
     text = models.TextField(max_length=1000, verbose_name="Comment Text")
     create_date = models.DateTimeField(auto_now_add=True, verbose_name="Comment Create Date")
 
     def __str__(self):
         return f"{self.user.username} -- {self.blog.title}"
+    
 
     class Meta:
         verbose_name = "Blog Comment"

@@ -93,6 +93,11 @@ in django we have a default admin panel that you can control your web app settin
     * windows : `python manage.py createsuperuser`
     * after above command you enter username , email is optional , and password
 2. after creating a super user you can enter to admin panel in `http://127.0.0.1:8000/admin`
+3. now you are in admin panel and can edit data
+
+
+
+# Hope to Enjoy
 
 
     

@@ -17,7 +17,7 @@ admin.site.register(models.Like, LikeAdmin)
 
 
 class ViewAdmin(admin.ModelAdmin):
-    readonly_fields = ("user", "blog")
+    readonly_fields = ("user", "blog","ip")
 
 
 admin.site.register(models.View, ViewAdmin)

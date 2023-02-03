@@ -37,8 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "rest_framework",
+    "rest_framework.authtoken",
     # My Apps
     "blog.apps.BlogConfig",
+    "user.apps.UserConfig",
 
 ]
 
