@@ -6,7 +6,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser
 
 from .serializers import UserRegisterSerializer,UserLoginSerializer
-from blog.serializers import BlogSerializerFromUser
+from blog.serializers import BlogSerializerFromUser,BlogSerializer
+from blog.models import Blog
 
 from django.contrib.auth import login,logout
 
@@ -63,3 +64,41 @@ class NewBlog(APIView):
             return Response(data,status=status.HTTP_200_OK)
         
         return Response(data = blog_serializer_from_user.error_messages,status=status.HTTP_400_BAD_REQUEST)
+
+class DeleteBlog(APIView):
+
+    permission_classes = (IsAuthenticated,)
+
+    def delete(self,request,blog_id:int):
+        
+        if not blog_id:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        blog = Blog.objects.filter(id = blog_id).first()
+
+        if not blog:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        message:str = f"{blog.title} deleted Successfully ..."
+
+        blog.delete()
+
+        data = {
+            "message" : message
+        }
+
+        return Response(data = data,status=status.HTTP_200_OK)
+
+
+class UserBlogs(APIView):
+
+    permission_classes = (IsAuthenticated,)
+
+    def get(self,request):
+        
+        user_blogs = Blog.objects.filter(user = request.user,active=True).all()
+
+        user_blogs_serializer = BlogSerializer(instance = user_blogs,many=True)
+
+        return Response(data = user_blogs_serializer.data,status=status.HTTP_200_OK)
+    
