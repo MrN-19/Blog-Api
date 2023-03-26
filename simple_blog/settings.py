@@ -131,3 +131,40 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+CKEDITOR_CONFIGS = {
+    "default": {
+        "toolbar": "full",
+        "height": 300,
+        "width": "auto",
+    },
+    "ticket": {
+        "toolbar": "Custom",
+        "toolbar_Custom": [
+            ["Bold", "Italic", "Underline"],
+            [
+                "NumberedList",
+                "BulletedList",
+                "-",
+                "Outdent",
+                "Indent",
+                "-",
+                "JustifyLeft",
+                "JustifyCenter",
+                "JustifyRight",
+                "JustifyBlock",
+            ],
+            ["Link", "Unlink"],
+            ["Image", "Table", "HorizontalRule", "Smiley", "SpecialChar", "PageBreak"],
+        ],
+        "height": 300,
+        "width": "auto",
+        "filebrowserWindowHeight": 725,
+        "filebrowserWindowWidth": 940,
+        "toolbarCanCollapse": True,
+        "removePlugins": "stylesheetparser",
+        "tabSpaces": 4,
+        "filebrowserImageBrowseUrl": False,
+    },
+}
