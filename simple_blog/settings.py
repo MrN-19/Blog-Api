@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "rest_framework",
     "rest_framework.authtoken",
+    "ckeditor",
     # My Apps
     "blog.apps.BlogConfig",
     "user.apps.UserConfig",
@@ -102,6 +103,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.TokenAuthentication",
+    ),
+}
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -132,7 +140,8 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+CKEDITOR_UPLOAD_PATH = "media/ckeditor_files/"
+CKEDITOR_IMAGE_BACKEND = "pillow"
 CKEDITOR_CONFIGS = {
     "default": {
         "toolbar": "full",
@@ -156,7 +165,8 @@ CKEDITOR_CONFIGS = {
                 "JustifyBlock",
             ],
             ["Link", "Unlink"],
-            ["Image", "Table", "HorizontalRule", "Smiley", "SpecialChar", "PageBreak"],
+            ["Image", "Table", "HorizontalRule",
+                "Smiley", "SpecialChar", "PageBreak"],
         ],
         "height": 300,
         "width": "auto",
