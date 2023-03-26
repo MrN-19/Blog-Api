@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import UserLogin,UserLogout,UserRegister,NewBlog
+from .views import UserLogin,UserLogout,UserRegister,NewBlog,UserBlogs
 
 
 app_name:str = "user"
@@ -10,4 +10,5 @@ urlpatterns = [
     path("login",UserLogin.as_view(),name="userlogin"),
     path("logout",UserLogout.as_view(),name="logout"),
     path("new-blog",NewBlog.as_view(),name="newblog"),
+    path("user-blogs",UserBlogs.as_view(),name="userblogs"),
 ]

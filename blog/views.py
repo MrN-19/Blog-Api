@@ -14,7 +14,7 @@ class LastBlogs(APIView):
 
     def get(self,request):
 
-        last_blogs = Blog.objects.order_by("-publish_date").all()
+        last_blogs = Blog.objects.order_by("-publish_date").filter(active=True).all()
         last_blogs_serializer = BlogSerializer(instance=last_blogs,many=True)
 
         return Response(data = last_blogs_serializer.data,status=status.HTTP_200_OK)
@@ -50,7 +50,7 @@ class SearchBlog(APIView):
         if query == "":
             return Response(status=status.HTTP_200_OK)
         
-        searched_blogs = Blog.objects.filter(Q(title__icontains  = query) | Q(short_description__icontains = query) | Q(text__icontains = query))
+        searched_blogs = Blog.objects.filter(Q(title__icontains  = query) | Q(short_description__icontains = query) | Q(text__icontains = query),active=True).all()
 
         searched_blogs_serializer = BlogSerializer(instance=searched_blogs,many=True)
 

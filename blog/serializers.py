@@ -87,6 +87,7 @@ class BlogSerializerFromUser(serializers.Serializer):
 
         if category_id == 0:
             raise serializers.ValidationError("Category Id is not Valid ... !")
+        
         if not self.__user:
             raise serializers.ValidationError("User Is Not Valid ... !")
 
