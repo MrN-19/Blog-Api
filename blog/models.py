@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import FileExtensionValidator
 
+from ckeditor_uploader.fields import RichTextUploadingField
+
 
 class BlogCategory(models.Model):
     title = models.CharField(max_length = 120,verbose_name = "Category Name")
@@ -20,7 +22,7 @@ class Blog(models.Model):
     short_description = models.CharField(max_length=500, verbose_name="Short Describtion")
     publish_date = models.DateTimeField(auto_now_add=True, verbose_name="Publish Date")
     picture = models.ImageField(upload_to="blog/pictures")
-    text = models.TextField(verbose_name="Text Of Blog",null=True)
+    text = RichTextUploadingField(verbose_name="Text Of Blog",null=True)
     active = models.BooleanField(default=True,verbose_name="Blog Activation")
 
 
