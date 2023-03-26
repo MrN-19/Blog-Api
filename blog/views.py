@@ -10,6 +10,16 @@ from .models import Blog,Like,View,BlogCategory
 from .serializers import BlogSerializer,CommentSerializer
 
 
+class LastBlogs(APIView):
+
+    def get(self,request):
+
+        last_blogs = Blog.objects.order_by("-publish_date").all()
+        last_blogs_serializer = BlogSerializer(instance=last_blogs,many=True)
+
+        return Response(data = last_blogs_serializer.data,status=status.HTTP_200_OK)
+
+
 class AllBlogs(APIView):
 
     def get(self, request):
