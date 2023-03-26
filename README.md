@@ -38,6 +38,8 @@ this project has basic options of a weblog website such as
 this project is simple that there are list of urls that you can send request and get data
 
 ### list Of urls
+* `http://127.0.0.1:8000`
+    * this path gives us recent blogs have just added
 * `http://127.0.0.1:8000/blogs` 
     * this path gives us all blogs in database
 * `http://127.0.0.1:8000/blog/{blog id}` 
@@ -47,9 +49,7 @@ this project is simple that there are list of urls that you can send request and
     * query searched in (title of blog) , (short description of blog) , (text of blog)
 * `http://127.0.0.1:8000/like-blog/{blog id}`
     * in this url you can like a blog by sending blog id in url
-    * but for this action you need to authenticate first then like blog that i explain below how to authenticate
-    * for like you should send token (you recived token when you register) in header like below stracture
-        * Authorization: Token `token`
+    * this service needs user authentication , for authenticating you should use of commands that we talked about in below
 * `http://127.0.0.1:8000/view-blog/{blog id}`
     * in this url you can set blog visit by sending blog id
 * `http://127.0.0.1:8000/register`
@@ -66,6 +66,29 @@ this project is simple that there are list of urls that you can send request and
     * in this url you can logout
     * when you logout your token will delete
     * for logout you should were login before else you cant do logout action
+* `http://127.0.0.1:8000/user-blogs`
+    * this url will return blogs that current user have published and for using of this 
+    service you should be signed in (you can see how to sign in in below)
+
+* `http://127.0.0.1:8000/new-blog`
+
+    * this is a post request , that each user can publish own blog
+    * data you should send 
+
+        1. title -> string field (max_length = 150 Characters)
+        2. short_describtion -> string field (max_length = 500 Characters)
+        3. text -> string field with no limit in Characters
+        4. picture -> this is file field , and you should send media file (image, jpeg,jpg,...)
+        5. category_id -> this int field and you should send id of category
+
+    * you send these data to above url
+
+* `http://127.0.0.1:8000/delete-blog/{blog_id:int}`
+
+    * this url will delete user blog
+    
+    * in url parameter you should send `blog id`
+    * blog id is type of integer
 
 
 ## Blog Fields
@@ -95,6 +118,17 @@ in django we have a default admin panel that you can control your web app settin
 2. after creating a super user you can enter to admin panel in `http://127.0.0.1:8000/admin`
 3. now you are in admin panel and can edit data
 
+# How to Use Of Urls that need user authentication ?
+
+for using urls that need user to be loged in system you should do below steps :
+
+1. at the first by using of login url you should login to system
+2. after loging server gives you a token that is unique for each user
+3. now after getting token you should store in a local database or browser storage or anywhere
+4. now for using of api's that need to user authentication you should send this token in header when you are sending request like this
+
+    * in Header of request do like this
+    * Authorization : Token `token key`
 
 
 # Hope to Enjoy
